@@ -1,37 +1,40 @@
 # QGIS Server 3 with Apache FCGI
 
-FROM phusion/baseimage:bionic-1.0.0
+FROM phusion/baseimage:focal-1.1.0
 
 MAINTAINER Pirmin Kalberer
 
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-#Fonts
-RUN apt-get update && apt-get install -y ttf-dejavu ttf-bitstream-vera fonts-liberation ttf-ubuntu-font-family
-RUN apt-get update && apt-get install -y fontconfig
 
-# Additional user fonts
+# Install dependencies:
+# - Fonts
+# - Headless X Server
+# - Apache + FCGI
+# - QGIS Server
+RUN \
+    apt-get update && \
+    apt-get install -y fontconfig ttf-dejavu ttf-bitstream-vera fonts-liberation ttf-ubuntu-font-family && \
+    apt-get install -y xvfb && \
+    apt-get install -y apache2 libapache2-mod-fcgid && \
+    echo "deb https://qgis.org/ubuntu-ltr focal main" > /etc/apt/sources.list.d/qgis.org-debian.list && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 46B5721DBBD2996A && \
+    apt-get install -y qgis-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+# Add additional user fonts
 ADD fonts/* /usr/share/fonts/truetype/
-
 RUN fc-cache -f && fc-list | sort
 
-#Headless X Server
-RUN apt-get update && apt-get install -y xvfb
-
+# Configure xvfb
 RUN mkdir /etc/service/xvfb
 ADD xvfb-run.sh /etc/service/xvfb/run
 RUN chmod +x /etc/service/xvfb/run
 
-#Apache FCGI
-RUN apt-get update && apt-get install -y apache2 libapache2-mod-fcgid
-
-#QGIS Server
-RUN echo "deb https://qgis.org/ubuntu-ltr bionic main" > /etc/apt/sources.list.d/qgis.org-debian.list
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 46B5721DBBD2996A
-
-RUN apt-get update && apt-get install -y qgis-server
-
+# Configure apache
 #RUN a2dismod mpm_event
 #RUN a2enmod mpm_worker
 RUN a2enmod rewrite
@@ -55,8 +58,6 @@ RUN mkdir /etc/service/dockerlog
 ADD dockerlog-run.sh /etc/service/dockerlog/run
 RUN chmod +x /etc/service/dockerlog/run
 
-ADD pg_service.conf /etc/postgresql-common/
-
 EXPOSE 80
 
 VOLUME ["/data"]
@@ -64,5 +65,3 @@ VOLUME ["/data"]
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# Clean up downloaded packages
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
