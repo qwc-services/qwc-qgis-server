@@ -20,6 +20,7 @@ RUN \
     apt-get install -y apache2 libapache2-mod-fcgid && \
     echo "deb https://qgis.org/ubuntu focal main" > /etc/apt/sources.list.d/qgis.org-debian.list && \
     apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 46B5721DBBD2996A && \
+    apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
