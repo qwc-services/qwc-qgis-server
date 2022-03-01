@@ -76,23 +76,3 @@ jobs:
           tags: "${{ steps.get_tag_qgis_3.outputs.tags }}"
           workdir: .
           buildargs: URL_PREFIX
-
-      - name: Get version tag QGIS 2
-        id: get_tag_qgis_2
-        run: |
-          VERSION_TRIPLE=$(curl -s https://qgis.org/ubuntu-ltr/dists/xenial/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | sed 's/^Version: 1:\(.*\)+.*/\1/')
-          VERSION_MINOR=$(curl -s https://qgis.org/ubuntu-ltr/dists/xenial/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
-          echo ::set-output name=tags::$VERSION_TRIPLE,$VERSION_MINOR
-
-      - name: Build and publish docker image for QGIS Server 2
-        uses: elgohr/Publish-Docker-Github-Action@2.12
-        env:
-          URL_PREFIX: /ows
-        with:
-          name: sourcepole/qwc-qgis-server
-          username: ${{ secrets.DOCKER_HUB_USER }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_2.outputs.tags }}"
-          workdir: .
-          dockerfile: Dockerfile-qgis2
-          buildargs: URL_PREFIX
