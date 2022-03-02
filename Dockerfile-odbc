@@ -9,5 +9,5 @@ MAINTAINER Pirmin Kalberer
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/mssql-release.list && \
     curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql17
+    ACCEPT_EULA=Y apt-get install -y msodbcsql17 libqt5sql5-odbc
 
