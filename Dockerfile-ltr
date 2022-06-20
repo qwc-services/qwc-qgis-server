@@ -1,6 +1,6 @@
 # QGIS Server 3 with Apache FCGI
 
-FROM phusion/baseimage:focal-1.1.0
+FROM phusion/baseimage:focal-1.2.0
 
 MAINTAINER Pirmin Kalberer
 
@@ -18,8 +18,9 @@ RUN \
     apt-get install -y fontconfig ttf-dejavu ttf-bitstream-vera fonts-liberation ttf-ubuntu-font-family && \
     apt-get install -y xvfb && \
     apt-get install -y apache2 libapache2-mod-fcgid && \
+    curl -L https://qgis.org/downloads/qgis-2021.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
+    chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg && \
     echo "deb https://qgis.org/ubuntu-ltr focal main" > /etc/apt/sources.list.d/qgis.org-debian.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key 46B5721DBBD2996A && \
     apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
