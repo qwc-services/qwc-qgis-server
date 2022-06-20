@@ -20,7 +20,7 @@ jobs:
           echo ::set-output name=tags::$VERSION_TRIPLE,$VERSION_MINOR
 
       - name: Build and publish docker image for QGIS Server 3 LTR
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           URL_PREFIX: /ows
         with:
@@ -33,7 +33,7 @@ jobs:
           buildargs: URL_PREFIX
 
       - name: Build and publish docker image for QGIS Server 3 LTR with plugins
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           QGIS_VERSION: ${{ steps.get_tag_qgis_3_ltr.outputs.version }}
         with:
@@ -46,7 +46,7 @@ jobs:
           buildargs: QGIS_VERSION
 
       - name: Build and publish docker image for QGIS Server 3 LTR with ODBC driver
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           QGIS_VERSION: ${{ steps.get_tag_qgis_3_ltr.outputs.version }}
         with:
@@ -66,7 +66,7 @@ jobs:
           echo ::set-output name=tags::$VERSION_TRIPLE,$VERSION_MINOR,latest
 
       - name: Build and publish docker image for QGIS Server 3
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+        uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           URL_PREFIX: /ows
         with:
