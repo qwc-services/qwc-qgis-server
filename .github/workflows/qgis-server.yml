@@ -1,6 +1,6 @@
 name: Publish qwc-qgis-server docker images
 
-on: [push]
+on: [push, workflow_dispatch]
 
 jobs:
 
