@@ -7,6 +7,7 @@ MAINTAINER Pirmin Kalberer
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
+ARG QGIS_REPO=ubuntu
 
 # Install dependencies:
 # - Fonts
@@ -20,13 +21,11 @@ RUN \
     apt-get install -y apache2 libapache2-mod-fcgid && \
     curl -L https://qgis.org/downloads/qgis-2021.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
     chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg && \
-    echo "deb https://qgis.org/ubuntu focal main" > /etc/apt/sources.list.d/qgis.org-debian.list && \
+    echo "deb https://qgis.org/$QGIS_REPO focal main" > /etc/apt/sources.list.d/qgis.org.list && \
     apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-
 
 # Add additional user fonts
 ADD fonts/* /usr/share/fonts/truetype/

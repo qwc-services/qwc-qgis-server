@@ -22,6 +22,7 @@ jobs:
       - name: Build and publish docker image for QGIS Server 3 LTR
         uses: elgohr/Publish-Docker-Github-Action@v4
         env:
+          QGIS_REPO: ubuntu-ltr
           URL_PREFIX: /ows
         with:
           name: sourcepole/qwc-qgis-server
@@ -29,8 +30,7 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.tags }}"
           workdir: .
-          dockerfile: Dockerfile-ltr
-          buildargs: URL_PREFIX
+          buildargs: QGIS_REPO,URL_PREFIX
 
       - name: Build and publish docker image for QGIS Server 3 LTR with plugins
         uses: elgohr/Publish-Docker-Github-Action@v4
