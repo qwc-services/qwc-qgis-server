@@ -19,7 +19,7 @@ RUN \
     apt-get install -y fontconfig ttf-dejavu ttf-bitstream-vera fonts-liberation ttf-ubuntu-font-family && \
     apt-get install -y xvfb && \
     apt-get install -y apache2 libapache2-mod-fcgid && \
-    curl -L https://qgis.org/downloads/qgis-2021.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
+    curl -L https://qgis.org/downloads/qgis-2022.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
     chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg && \
     echo "deb https://qgis.org/$QGIS_REPO focal main" > /etc/apt/sources.list.d/qgis.org.list && \
     apt-get update && \
