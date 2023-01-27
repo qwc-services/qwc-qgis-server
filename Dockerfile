@@ -4,6 +4,8 @@ FROM phusion/baseimage:jammy-1.0.1
 
 MAINTAINER Pirmin Kalberer
 
+# Add de_DE.UTF-8 and fr_FR.UTF-8 to locales
+RUN locale-gen de_DE.UTF-8 fr_FR.UTF-8 && update-locale
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
