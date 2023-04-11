@@ -48,6 +48,8 @@ RUN a2enmod headers
 # Writeable dir for qgis_mapserv.log and qgis-auth.db
 RUN mkdir /var/log/qgis && chown www-data:www-data /var/log/qgis
 RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis
+# Dir for QGIS.ini
+RUN mkdir /etc/QGIS/
 ARG URL_PREFIX=/qgis
 ARG QGIS_SERVER_LOG_LEVEL=1
 ADD qgis3-server.conf /etc/apache2/sites-enabled/qgis-server.conf

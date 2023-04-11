@@ -3,6 +3,20 @@
 
 
 QWC QGIS Server
-==============
+===============
 
 QGIS server Docker image for QWC.
+
+
+Configuring a proxy server
+--------------------------
+
+Mount a file with contents
+```
+[proxy]
+proxyEnabled=true
+proxyType=HttpProxy
+proxyHost=myproxyhost
+proxyPort=8080
+```
+to `/etc/QGIS/QGIS3.ini`.
