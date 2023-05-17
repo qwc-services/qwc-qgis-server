@@ -8,27 +8,24 @@ ServerName 127.0.0.1
     # error, crit, alert, emerg.
     #LogLevel info
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
-
     Header set Access-Control-Allow-Origin "*"
 
     RewriteEngine On
-    RewriteRule ^@URL_PREFIX@/([^\(pg/\)].*)$ /cgi-bin/qgis_mapserv.fcgi?map=/data/$1.qgs [QSA,PT]
-    RewriteRule ^@URL_PREFIX@/pg/(.+)/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=postgresql\%3A\%2F\%2F\%2F\%3Fservice\%3D@DB_PROJECT_SERVICE@\%26schema=$1\%26project=$2 [QSA,PT]
+    RewriteRule ^${URL_PREFIX}/([^\(pg/\)].*)$ /cgi-bin/qgis_mapserv.fcgi?map=/data/$1.qgs [QSA,PT]
+    RewriteRule ^${URL_PREFIX}/pg/(.+)/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=postgresql\%3A\%2F\%2F\%2F\%3Fservice\%3D${DB_PROJECT_SERVICE}\%26schema=$1\%26project=$2 [QSA,PT]
     # Forbid direct access
     RewriteRule ^/cgi-bin/.*$ - [F]
 
     FcgidIOTimeout 120
 
-    FcgidInitialEnv QGIS_SERVER_LOG_FILE /var/log/qgis/qgis_mapserv.log
-    FcgidInitialEnv QGIS_SERVER_LOG_LEVEL @QGIS_SERVER_LOG_LEVEL@
-    FcgidInitialEnv QGIS_DEBUG 1
+    FcgidInitialEnv QGIS_SERVER_LOG_LEVEL ${QGIS_SERVER_LOG_LEVEL}
+    FcgidInitialEnv QGIS_SERVER_LOG_STDERR ${QGIS_SERVER_LOG_STDERR}
+    FcgidInitialEnv QGIS_SERVER_IGNORE_BAD_LAYERS ${QGIS_SERVER_IGNORE_BAD_LAYERS}
+    FcgidInitialEnv QGIS_DEBUG ${QGIS_DEBUG}
+    FcgidInitialEnv MAX_CACHE_LAYERS ${MAX_CACHE_LAYERS}
     FcgidInitialEnv QGIS_AUTH_DB_DIR_PATH "/var/lib/qgis"
     FcgidInitialEnv QGIS_CUSTOM_CONFIG_PATH "/var/lib/qgis"
-    FcgidInitialEnv QGIS_OPTIONS_PATH "/etc"
-    FcgidInitialEnv MAX_CACHE_LAYERS 500
-    FcgidInitialEnv DISPLAY ":99"
+    FcgidInitialEnv QGIS_OPTIONS_PATH ${QGIS_OPTIONS_PATH}
     SetEnv PGSERVICEFILE /etc/postgresql-common/pg_service.conf
 
     ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
