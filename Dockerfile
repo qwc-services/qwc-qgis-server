@@ -51,9 +51,10 @@ RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis
 # Dir for QGIS.ini
 RUN mkdir /etc/QGIS/
 ARG URL_PREFIX=/qgis
+ARG DB_PROJECT_SERVICE=qgisprojects
 ARG QGIS_SERVER_LOG_LEVEL=1
 ADD qgis3-server.conf /etc/apache2/sites-enabled/qgis-server.conf
-RUN sed -i "s!@URL_PREFIX@!$URL_PREFIX!g; s!@QGIS_SERVER_LOG_LEVEL@!$QGIS_SERVER_LOG_LEVEL!g" /etc/apache2/sites-enabled/qgis-server.conf
+RUN sed -i "s!@URL_PREFIX@!$URL_PREFIX!g; s!@DB_PROJECT_SERVICE@!$DB_PROJECT_SERVICE!g; s!@QGIS_SERVER_LOG_LEVEL@!$QGIS_SERVER_LOG_LEVEL!g" /etc/apache2/sites-enabled/qgis-server.conf
 RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 RUN mkdir /etc/service/apache2

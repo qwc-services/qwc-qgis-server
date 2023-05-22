@@ -20,3 +20,15 @@ proxyHost=myproxyhost
 proxyPort=8080
 ```
 to `/etc/QGIS/QGIS3.ini`.
+
+
+Loading QGIS projects from database
+-----------------------------------
+
+QGIS Server can load QGIS projects directly from a postgresql database.
+
+This image is preconfigured to load projects from the database when QGIS Server is called as follows:
+
+    http://localhost:8001/qgis/pg:<schema>.<projectname>
+
+It will use the `qgisprojects` postgresql service connection, which must be defined in the `pg_service.conf` which is mounted into the `qwc-qgis-server` container.
