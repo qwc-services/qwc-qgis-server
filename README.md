@@ -32,3 +32,22 @@ This image is preconfigured to load projects from the database when QGIS Server 
     http://localhost:8001/qgis/pg/<schema>/<projectname>
 
 It will use the `qgisprojects` postgresql service connection, which must be defined in the `pg_service.conf` which is mounted into the `qwc-qgis-server` container.
+
+
+QGIS Server ENV configuration
+-----------------------------
+
+QGIS Server can be configured by setting some environment variables.
+
+This image supports the following environment variables (this list also include the defaults used by this image:
+
+```
+URL_PREFIX=/ows
+QGIS_SERVER_LOG_STDERR=1
+QGIS_SERVER_LOG_LEVEL=1
+QGIS_SERVER_IGNORE_BAD_LAYERS=false
+QGIS_DEBUG=1
+MAX_CACHE_LAYERS=500
+QGIS_OPTIONS_PATH=/etc
+DB_PROJECT_SERVICE=qgisprojects
+```
