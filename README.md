@@ -7,31 +7,7 @@ QWC QGIS Server
 
 QGIS server Docker image for QWC.
 
-
-Configuring a proxy server
---------------------------
-
-Mount a file with contents
-```
-[proxy]
-proxyEnabled=true
-proxyType=HttpProxy
-proxyHost=myproxyhost
-proxyPort=8080
-```
-to `/etc/QGIS/QGIS3.ini`.
-
-
-Loading QGIS projects from database
------------------------------------
-
-QGIS Server can load QGIS projects directly from a postgresql database.
-
-This image is preconfigured to load projects from the database when QGIS Server is called as follows:
-
-    http://localhost:8001/qgis/pg/<schema>/<projectname>
-
-It will use the `qgisprojects` postgresql service connection, which must be defined in the `pg_service.conf` which is mounted into the `qwc-qgis-server` container.
+Requests to `/ows/<project>` are mapped to `/data/<project>.qgs`.
 
 
 Configuring FCGI with ENVs
@@ -47,10 +23,11 @@ for more information about QGIS Server specifc environment variables.
 
 | Name | Default | Application|
 |------|---------|-------------
+|URL_PREFIX|/ows|QWC2 Services|
+|APACHE_LOG_LEVEL|info|QGIS Server apache2 FCGI|
 |FCGI_IO_TIMEOUT|120|QGIS Server apache2 FCGI|
 |FCGI_MIN_PROCESSES|3 |QGIS Server apache2 FCGI|
 |FCGI_MAX_PROCESSES|100|QGIS Server apache2 FCGI|
-|URL_PREFIX|/ows|QWC2 Services|
 |MAX_CACHE_LAYERS|500|QGIS Server|
 |DB_PROJECT_SERVICE|qgisprojects|QGIS Server|
 |QGIS_DEBUG|1 | QGIS Server|
@@ -82,10 +59,42 @@ for more information about QGIS Server specifc environment variables.
 
 Other QGIS Server settings that are used:
 
-* QGIS_SERVER_LOG_STDERR: 1
 * QGIS_CUSTOM_CONFIG_PATH: "/var/lib/qgis"
 * QGIS_AUTH_DB_DIR_PATH: "/var/lib/qgis"
 * QGIS_OPTIONS_PATH: "/etc"
+* QGIS_PLUGINPATH: "/usr/share/qgis/python/plugins"
 * QGIS_SERVER_API_RESOURCES_DIRECTORY: "/usr/share/qgis/resources/server/api"
 * QGIS_SERVER_CACHE_DIRECTORY: "/etc/cache"
-* QGIS_PLUGINPATH: "/usr/share/qgis/python/plugins"
+* PGSERVICEFILE: "/etc/postgresql-common/pg_service.conf"
+
+
+Additional fonts
+----------------
+
+To add additional fonts, mount your font directoy to `/usr/local/share/fonts`.
+
+
+Configuring a proxy server
+--------------------------
+
+Mount a file with contents
+```
+[proxy]
+proxyEnabled=true
+proxyType=HttpProxy
+proxyHost=myproxyhost
+proxyPort=8080
+```
+to `/etc/QGIS/QGIS3.ini`.
+
+
+Loading QGIS projects from database
+-----------------------------------
+
+QGIS Server can load QGIS projects directly from a postgresql database.
+
+This image is preconfigured to load projects from the database when QGIS Server is called as follows:
+
+    http://localhost:8001/qgis/pg/<schema>/<projectname>
+
+It will use the `qgisprojects` postgresql service connection, which must be defined in the `pg_service.conf` which is mounted into the `qwc-qgis-server` container.

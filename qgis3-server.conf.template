@@ -6,8 +6,9 @@ ServerName 127.0.0.1
 
     # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
     # error, crit, alert, emerg.
-    #LogLevel info
+    LogLevel ${APACHE_LOG_LEVEL}
 
+    # Set CORS headers for GetCapabilities and GetFeatureInfo requests
     Header set Access-Control-Allow-Origin "*"
 
     RewriteEngine On
@@ -16,6 +17,7 @@ ServerName 127.0.0.1
     # Forbid direct access
     RewriteRule ^/cgi-bin/.*$ - [F]
 
+    # https://httpd.apache.org/mod_fcgid/mod/mod_fcgid.html
     FcgidIOTimeout ${FCGI_IO_TIMEOUT}
     FcgidMinProcessesPerClass ${FCGI_MIN_PROCESSES}
     FcgidMaxProcessesPerClass ${FCGI_MAX_PROCESSES}

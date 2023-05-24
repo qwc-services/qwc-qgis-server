@@ -2,10 +2,7 @@
 
 FROM ubuntu:jammy
 
-MAINTAINER Pirmin Kalberer
-
 ARG QGIS_REPO=ubuntu
-ENV DEBIAN_FRONTEND=noninteractive
 
 # Install dependencies:
 # - Locales
@@ -13,6 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # - Apache + FCGI
 # - QGIS Server
 # - envsubst (gettext-base)
+ENV DEBIAN_FRONTEND=noninteractive
 RUN \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y locales && \
@@ -51,6 +49,7 @@ RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis && \
 
 # ENV variables that will be used to configure QGIS server FCGI
 # apache2 specific variables
+ENV APACHE_LOG_LEVEL=info
 ENV FCGI_IO_TIMEOUT=120
 ENV FCGI_MIN_PROCESSES=3
 ENV FCGI_MAX_PROCESSES=100
