@@ -10,6 +10,9 @@ jobs:
 
       - uses: actions/checkout@master
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Get version tag QGIS 3 LTR
         id: get_tag_qgis_3_ltr
         run: |
@@ -23,14 +26,13 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@v4
         env:
           QGIS_REPO: ubuntu-ltr
-          URL_PREFIX: /ows
         with:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.tags }}"
           workdir: .
-          buildargs: QGIS_REPO,URL_PREFIX
+          buildargs: QGIS_REPO
 
       - name: Build and publish docker image for QGIS Server 3 LTR with plugins
         uses: elgohr/Publish-Docker-Github-Action@v4
@@ -67,12 +69,9 @@ jobs:
 
       - name: Build and publish docker image for QGIS Server 3
         uses: elgohr/Publish-Docker-Github-Action@v4
-        env:
-          URL_PREFIX: /ows
         with:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           tags: "${{ steps.get_tag_qgis_3.outputs.tags }}"
           workdir: .
-          buildargs: URL_PREFIX
