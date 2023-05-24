@@ -6,8 +6,9 @@ MAINTAINER Pirmin Kalberer
 # MSSQL drivers
 # https://docs.microsoft.com/de-de/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15
 
-RUN echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/mssql-release.list && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
+RUN apt-get update && apt-get install -y lsb-release && \
+    echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.asc] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/mssql-release.list && \
+    curl https://packages.microsoft.com/keys/microsoft.asc > /etc/apt/trusted.gpg.d/microsoft.asc && \
     apt-get update && \
     ACCEPT_EULA=Y apt-get install -y msodbcsql17 libqt5sql5-odbc
 
