@@ -1,9 +1,5 @@
 #!/bin/sh
 
-##
-# Runit run script for apache2
-#
-
 # Update fonts
 fc-cache -f
 

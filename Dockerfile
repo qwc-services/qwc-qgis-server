@@ -59,11 +59,11 @@ ENV DB_PROJECT_SERVICE=qgisprojects
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
 RUN rm /etc/apache2/sites-enabled/000-default.conf
 
-RUN mkdir /usr/local/bin/apache2
-ADD --chmod=+x apache2-run.sh /usr/local/bin/apache2/run
+# Add entrypoint
+ADD --chmod=+x entrypoint.sh /entrypoint.sh
 
 EXPOSE 80
 
 VOLUME ["/data"]
 
-CMD ["/usr/local/bin/apache2/run"]
+ENTRYPOINT ["/entrypoint.sh"]
