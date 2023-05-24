@@ -43,21 +43,50 @@ RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \
 		"/etc/apache2/apache2.conf"
 
 # Writeable dir for qgis_mapserv.log and qgis-auth.db
-RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis
-# Dir for QGIS.ini
-RUN mkdir /etc/QGIS/
-# ENV variables that will be used to configure FCGI env variables
+RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis && \
+    # Dir for QGIS.ini
+    mkdir /etc/QGIS/ && \
+    # Delete apache2 default site
+    rm /etc/apache2/sites-enabled/000-default.conf
+
+# ENV variables that will be used to configure QGIS server FCGI
+# apache2 specific variables
+ENV FCGI_IO_TIMEOUT=120
+ENV FCGI_MIN_PROCESSES=3
+ENV FCGI_MAX_PROCESSES=100
+# QWC2 specific variables
 ENV URL_PREFIX=/ows
-ENV QGIS_SERVER_LOG_STDERR=1
-ENV QGIS_SERVER_LOG_LEVEL=1
-ENV QGIS_SERVER_IGNORE_BAD_LAYERS=false
-ENV QGIS_DEBUG=1
+# QGIS Server specific variables
 ENV MAX_CACHE_LAYERS=500
-ENV QGIS_OPTIONS_PATH=/etc
 ENV DB_PROJECT_SERVICE=qgisprojects
+ENV QGIS_DEBUG=1
+ENV QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS=""
+ENV QGIS_SERVER_API_WFS3_MAX_LIMIT=10000
+ENV QGIS_SERVER_CACHE_SIZE=268435456
+ENV QGIS_SERVER_DISABLE_GETPRINT=false
+ENV QGIS_SERVER_FORCE_READONLY_LAYERS=false
+ENV QGIS_SERVER_IGNORE_BAD_LAYERS=false
+ENV QGIS_SERVER_LANDING_PAGE_PREFIX=""
+ENV QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES=""
+ENV QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS=""
+ENV QGIS_SERVER_LOG_LEVEL=1
+ENV QGIS_SERVER_LOG_PROFILE=false
+ENV QGIS_SERVER_MAX_THREADS=-1
+ENV QGIS_SERVER_OVERRIDE_SYSTEM_LOCALE=""
+ENV QGIS_SERVER_PARALLEL_RENDERING=false
+ENV QGIS_SERVER_PROJECT_CACHE_CHECK_INTERVAL=0
+ENV QGIS_SERVER_PROJECT_CACHE_STRATEGY=filesystem
+ENV QGIS_SERVER_SERVICE_URL=""
+ENV QGIS_SERVER_SHOW_GROUP_SEPARATOR=false
+ENV QGIS_SERVER_TRUST_LAYER_METADATA=1
+ENV QGIS_SERVER_WCS_SERVICE_URL=""
+ENV QGIS_SERVER_WFS_SERVICE_URL=""
+ENV QGIS_SERVER_WMS_MAX_HEIGHT=-1
+ENV QGIS_SERVER_WMS_MAX_WIDTH=-1
+ENV QGIS_SERVER_WMS_SERVICE_URL=""
+ENV QGIS_SERVER_WMTS_SERVICE_URL=""
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
-RUN rm /etc/apache2/sites-enabled/000-default.conf
 
 # Add entrypoint
 ADD --chmod=+x entrypoint.sh /entrypoint.sh
