@@ -32,9 +32,6 @@ RUN locale-gen en_US.UTF-8 de_DE.UTF-8 fr_FR.UTF-8 && update-locale
 ENV LANG en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-# Add additional user fonts
-ADD fonts/* /usr/share/fonts/truetype/
-
 # Configure apache
 RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \
     # Make sure apache2 logs to /dev/stdout and /dev/stderr
