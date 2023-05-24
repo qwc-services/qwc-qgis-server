@@ -89,7 +89,7 @@ ENV QGIS_SERVER_WMTS_SERVICE_URL=""
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
 
 # Add entrypoint
-ADD --chmod=+x entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
 
 EXPOSE 80
 
