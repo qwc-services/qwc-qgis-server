@@ -32,6 +32,7 @@ ServerName 127.0.0.1
     FcgidInitialEnv QGIS_PLUGINPATH "/usr/share/qgis/python/plugins"
     # Configurable QGIS Server ENVs
     FcgidInitialEnv QGIS_DEBUG ${QGIS_DEBUG}
+    FcgidInitialEnv MAX_CACHE_LAYERS ${MAX_CACHE_LAYERS}
     FcgidInitialEnv QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS ${QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS}
     FcgidInitialEnv QGIS_SERVER_API_WFS3_MAX_LIMIT ${QGIS_SERVER_API_WFS3_MAX_LIMIT}
     FcgidInitialEnv QGIS_SERVER_CACHE_SIZE ${QGIS_SERVER_CACHE_SIZE}
