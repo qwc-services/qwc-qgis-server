@@ -28,7 +28,7 @@ ServerName 127.0.0.1
     FcgidInitialEnv QGIS_AUTH_DB_DIR_PATH "/var/lib/qgis"
     FcgidInitialEnv QGIS_OPTIONS_PATH "/etc"
     FcgidInitialEnv QGIS_SERVER_API_RESOURCES_DIRECTORY "/usr/share/qgis/resources/server/api"
-    FcgidInitialEnv QGIS_SERVER_CACHE_DIRECTORY "/etc/cache"
+    FcgidInitialEnv QGIS_SERVER_CACHE_DIRECTORY "/.cache"
     FcgidInitialEnv QGIS_PLUGINPATH "/usr/share/qgis/python/plugins"
     # Configurable QGIS Server ENVs
     FcgidInitialEnv LC_ALL ${LC_ALL}

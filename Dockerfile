@@ -47,6 +47,9 @@ RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis && \
     # Delete apache2 default site
     rm /etc/apache2/sites-enabled/000-default.conf
 
+# Writeable cache directory
+RUN mkdir /.cache && chown www-data:www-data /.cache
+
 # ENV variables that will be used to configure QGIS server FCGI
 # apache2 specific variables
 ENV APACHE_LOG_LEVEL=info

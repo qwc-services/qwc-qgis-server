@@ -64,7 +64,7 @@ Other QGIS Server settings that are used:
 * QGIS_OPTIONS_PATH: "/etc"
 * QGIS_PLUGINPATH: "/usr/share/qgis/python/plugins"
 * QGIS_SERVER_API_RESOURCES_DIRECTORY: "/usr/share/qgis/resources/server/api"
-* QGIS_SERVER_CACHE_DIRECTORY: "/etc/cache"
+* QGIS_SERVER_CACHE_DIRECTORY: "/.cache"
 * PGSERVICEFILE: "/etc/postgresql-common/pg_service.conf"
 
 
