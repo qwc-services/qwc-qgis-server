@@ -24,6 +24,7 @@ for more information about QGIS Server specifc environment variables.
 | Name | Default | Application|
 |------|---------|-------------
 |URL_PREFIX|/ows|QWC2 Services|
+|PORT|80|QGIS Server apache2 FCGI|
 |APACHE_LOG_LEVEL|info|QGIS Server apache2 FCGI|
 |FCGI_IO_TIMEOUT|120|QGIS Server apache2 FCGI|
 |FCGI_MIN_PROCESSES|3 |QGIS Server apache2 FCGI|

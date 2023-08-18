@@ -36,19 +36,33 @@ RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \
     # so we can see the logs with "docker logs"
     # See: https://github.com/docker-library/httpd/blob/b13054c7de5c74bbaa6d595dbe38969e6d4f860c/2.2/Dockerfile#L72-L75
     sed -ri \
-		-e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
 		-e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
-		"/etc/apache2/apache2.conf"
-
-# Writeable dir for qgis_mapserv.log and qgis-auth.db
-RUN mkdir /var/lib/qgis && chown www-data:www-data /var/lib/qgis && \
-    # Dir for QGIS.ini
-    mkdir /etc/QGIS/ && \
+		/etc/apache2/apache2.conf && \
+    sed -ri \
+        -e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
+        /etc/apache2/conf-available/other-vhosts-access-log.conf && \
     # Delete apache2 default site
     rm /etc/apache2/sites-enabled/000-default.conf
 
-# Writeable cache directory
-RUN mkdir /.cache && chown www-data:www-data /.cache
+ARG UID=999
+
+RUN id $UID 2>/dev/null || useradd --system --uid $UID --create-home appuser
+
+RUN \
+    # Writeable dir for qgis-auth.db
+    mkdir /var/lib/qgis && chown $UID /var/lib/qgis && \
+    # Dir for QGIS.ini
+    mkdir /etc/QGIS/ && \
+    # Writeable cache directory
+    mkdir /.cache && chown $UID /.cache && \
+    # Set write permissions for runtime usage
+    chown $UID /var/www && \
+    chown $UID /var/run/apache2 && \
+    chown $UID /var/lib/apache2/fcgid && \
+    chmod go+rw /var/lib/apache2/fcgid/sock && \
+    chown $UID /etc/apache2/sites-enabled && \
+    chown $UID /etc/apache2/ports.conf && \
+    chown $UID /etc/apache2
 
 # ENV variables that will be used to configure QGIS server FCGI
 # apache2 specific variables
@@ -56,7 +70,9 @@ ENV APACHE_LOG_LEVEL=info
 ENV FCGI_IO_TIMEOUT=120
 ENV FCGI_MIN_PROCESSES=3
 ENV FCGI_MAX_PROCESSES=100
+# Set to 0 to disable lifetime check
 ENV FCGI_PROCESS_LIFE_TIME=3600
+# Set to 0 to disable idle check
 ENV FCGI_IDLE_TIMEOUT=300
 ENV FCGI_MAX_REQUESTLEN=26214400
 ENV FCGI_CONNECT_TIMEOUT=60
@@ -92,13 +108,17 @@ ENV QGIS_SERVER_WMS_MAX_HEIGHT=-1
 ENV QGIS_SERVER_WMS_MAX_WIDTH=-1
 ENV QGIS_SERVER_WMS_SERVICE_URL=""
 ENV QGIS_SERVER_WMTS_SERVICE_URL=""
+
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
 
 # Add entrypoint
 COPY entrypoint.sh /entrypoint.sh
 
-EXPOSE 80
+USER $UID
+
+ENV PORT=80
+EXPOSE $PORT
 
 VOLUME ["/data"]
 

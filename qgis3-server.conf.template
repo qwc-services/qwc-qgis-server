@@ -1,6 +1,6 @@
 ServerName 127.0.0.1
 
-<VirtualHost *:80>
+<VirtualHost *:$PORT>
     ServerAdmin webmaster@localhost
     DocumentRoot /var/www/html
 
