@@ -12,5 +12,5 @@ RUN apt-get update && apt-get install -y lsb-release && \
     apt-get update && \
     ACCEPT_EULA=Y apt-get install -y msodbcsql17 libqt5sql5-odbc
 
-ARG UID=999
+ARG UID=33
 USER $UID

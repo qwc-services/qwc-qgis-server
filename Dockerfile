@@ -44,7 +44,7 @@ RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \
     # Delete apache2 default site
     rm /etc/apache2/sites-enabled/000-default.conf
 
-ARG UID=999
+ARG UID=33
 
 RUN id $UID 2>/dev/null || useradd --system --uid $UID --create-home appuser
 
