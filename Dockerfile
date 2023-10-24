@@ -25,10 +25,8 @@ RUN \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Add de_DE.UTF-8 and fr_FR.UTF-8 to locales
-RUN locale-gen en_US.UTF-8 de_DE.UTF-8 fr_FR.UTF-8 && update-locale
-ENV LANG en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
+RUN locale-gen en_US.UTF-8 && update-locale
+ENV LOCALE en_US
 
 # Configure apache
 RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \

@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# Generate any requested non-en_US locale
+if [ $LOCALE != 'en_US' ]; then
+  echo "Compiling locale definition for $LOCALE"
+  # NOTE: Write to /tmp/locale-archive to allow unprivileged users to create locales
+  mkdir /tmp/locale-archive
+  localedef -i $LOCALE -c -f UTF-8 -A /usr/share/locale/locale.alias /tmp/locale-archive/$LOCALE.UTF-8
+  export LOCPATH=/tmp/locale-archive
+  export LANG=${LOCALE}.UTF-8
+fi
+
 echo Updating fonts...
 fc-cache -f && fc-list | sort
 

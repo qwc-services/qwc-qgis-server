@@ -79,6 +79,10 @@ Additional fonts
 
 To add additional fonts, mount your font directoy to `/usr/local/share/fonts`.
 
+Locale
+------
+
+The default locale is `en_US`. You can choose a different locale by setting the `LOCALE` environment variable to `lang_COUNTRY` (i.e. `de_CH`).
 
 Configuring a proxy server
 --------------------------
