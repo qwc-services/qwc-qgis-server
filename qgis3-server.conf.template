@@ -68,6 +68,7 @@ ServerName 127.0.0.1
     FcgidInitialEnv QGIS_SERVER_WMTS_SERVICE_URL ${QGIS_SERVER_WMTS_SERVICE_URL}
 
     SetEnv PGSERVICEFILE /etc/postgresql-common/pg_service.conf
+    SetEnv PGPASSFILE /etc/postgresql-common/pgpass.conf
 
     ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
     <Directory "/usr/lib/cgi-bin/">
