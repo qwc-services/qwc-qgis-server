@@ -106,6 +106,7 @@ ENV QGIS_SERVER_WMS_MAX_HEIGHT=-1
 ENV QGIS_SERVER_WMS_MAX_WIDTH=-1
 ENV QGIS_SERVER_WMS_SERVICE_URL=""
 ENV QGIS_SERVER_WMTS_SERVICE_URL=""
+ENV FCGID_EXTRA_ENV=""
 
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template

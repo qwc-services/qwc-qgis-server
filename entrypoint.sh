@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Generate any requested non-en_US locale
 if [ $LOCALE != 'en_US' ]; then
@@ -14,8 +14,24 @@ fi
 echo Updating fonts...
 fc-cache -f && fc-list | sort
 
-# Substitute variables from ENV
-envsubst < /etc/apache2/templates/qgis-server.conf.template > /etc/apache2/sites-enabled/qgis-server.conf
+# Copy for processing
+cp /etc/apache2/templates/qgis-server.conf.template /tmp/qgis-server.conf.template
+
+# Substitute arbitrary extra ENVs
+ORIG_IFS=$IFS
+IFS=","
+for extra_env in $FCGID_EXTRA_ENV; do
+  if [ ! -z ${!extra_env} ]; then
+    sed -i "s|@FCGID_EXTRA_ENV@|FcgidInitialEnv ${extra_env} ${!extra_env}\n@FCGID_EXTRA_ENV@|" /tmp/qgis-server.conf.template
+  fi
+done
+IFS=$ORIG_IFS
+sed -i "s|@FCGID_EXTRA_ENV@||" /tmp/qgis-server.conf.template
+
+# Substitute predefined variables from ENV
+envsubst < /tmp/qgis-server.conf.template > /etc/apache2/sites-enabled/qgis-server.conf
+
+rm /tmp/qgis-server.conf.template
 
 # Replace Port
 sed -i -e "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf

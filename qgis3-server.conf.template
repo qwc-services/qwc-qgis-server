@@ -66,6 +66,7 @@ ServerName 127.0.0.1
     FcgidInitialEnv QGIS_SERVER_WMS_MAX_WIDTH ${QGIS_SERVER_WMS_MAX_WIDTH}
     FcgidInitialEnv QGIS_SERVER_WMS_SERVICE_URL ${QGIS_SERVER_WMS_SERVICE_URL}
     FcgidInitialEnv QGIS_SERVER_WMTS_SERVICE_URL ${QGIS_SERVER_WMTS_SERVICE_URL}
+    @FCGID_EXTRA_ENV@
 
     SetEnv PGSERVICEFILE /etc/postgresql-common/pg_service.conf
     SetEnv PGPASSFILE /etc/postgresql-common/pgpass.conf
