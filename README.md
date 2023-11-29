@@ -97,6 +97,11 @@ Locale
 
 The default locale is `en_US`. You can choose a different locale by setting the `LOCALE` environment variable to `lang_COUNTRY` (i.e. `de_CH`).
 
+Additional datum grids
+----------------------
+
+Some projections may need additional datum grids for best accuracy. These are available at [https://cdn.proj.org/](https://cdn.proj.org/). Please mount these files below `/usr/share/proj`.
+
 Configuring a proxy server
 --------------------------
 
