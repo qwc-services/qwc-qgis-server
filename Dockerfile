@@ -51,9 +51,9 @@ RUN \
     mkdir /var/lib/qgis && chown $UID /var/lib/qgis && \
     # Dir for QGIS.ini
     mkdir /etc/QGIS/ && \
-    # Writeable cache directories
+    # Server cache directory ($QGIS_SERVER_CACHE_DIRECTORY)
     mkdir /.cache && chown $UID /.cache && \
-    # This directory is used to store the wfsprovider cache
+    # Profile cache directory ($QGIS_OPTIONS_PATH/cache), i.e. for wfs provider cache
     mkdir /etc/cache && chown $UID /etc/cache && \
     # Set write permissions for runtime usage
     chown $UID /var/www && \
