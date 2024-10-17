@@ -29,7 +29,7 @@ RUN locale-gen en_US.UTF-8 && update-locale
 ENV LOCALE en_US
 
 # Configure apache
-RUN a2enmod rewrite && a2enmod fcgid && a2enmod headers && \
+RUN a2enmod rewrite && a2enmod cgi && a2enmod fcgid && a2enmod headers && \
     # Make sure apache2 logs to /dev/stdout and /dev/stderr
     # so we can see the logs with "docker logs"
     # See: https://github.com/docker-library/httpd/blob/b13054c7de5c74bbaa6d595dbe38969e6d4f860c/2.2/Dockerfile#L72-L75
@@ -93,7 +93,7 @@ ENV QGIS_SERVER_LANDING_PAGE_PREFIX=""
 ENV QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES=""
 ENV QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS=""
 ENV QGIS_SERVER_LOG_LEVEL=1
-ENV QGIS_SERVER_LOG_FILE=""
+ENV QGIS_SERVER_LOG_FILE="/tmp/qgis_server.log"
 ENV QGIS_SERVER_LOG_PROFILE=false
 ENV QGIS_SERVER_MAX_THREADS=-1
 ENV QGIS_SERVER_OVERRIDE_SYSTEM_LOCALE=""
@@ -113,6 +113,9 @@ ENV FCGID_EXTRA_ENV=""
 
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
+
+# Add tail_logs.sh script
+ADD tail_logs.sh /usr/lib/cgi-bin/tail_logs.sh
 
 # Add entrypoint
 COPY entrypoint.sh /entrypoint.sh
