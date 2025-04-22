@@ -17,9 +17,15 @@ RUN \
     apt-get install -y fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu && \
     apt-get install -y apache2 libapache2-mod-fcgid && \
     apt-get install -y curl gpg gettext-base && \
-    curl -L https://qgis.org/downloads/qgis-2022.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
-    chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg && \
-    echo "deb https://qgis.org/$QGIS_REPO noble main" > /etc/apt/sources.list.d/qgis.org.list && \
+    curl -o /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
+    echo "\
+Types: deb deb-src\n\
+URIs: https://qgis.org/$QGIS_REPO\n\
+Suites: noble\n\
+Architectures: amd64\n\
+Components: main\n\
+Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n\
+" > /etc/apt/sources.list.d/qgis.sources && \
     apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
