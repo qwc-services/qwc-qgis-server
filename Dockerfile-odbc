@@ -1,4 +1,4 @@
-ARG QGIS_VERSION=3.16
+ARG QGIS_VERSION=3.40
 FROM sourcepole/qwc-qgis-server:$QGIS_VERSION
 
 USER root
@@ -6,11 +6,14 @@ USER root
 # MSSQL drivers
 # https://docs.microsoft.com/de-de/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15
 
-RUN apt-get update && apt-get install -y lsb-release && \
-    echo "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/microsoft.asc] https://packages.microsoft.com/ubuntu/$(lsb_release -rs)/prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/mssql-release.list && \
-    curl https://packages.microsoft.com/keys/microsoft.asc > /etc/apt/trusted.gpg.d/microsoft.asc && \
+RUN \
+    curl -sSL -O https://packages.microsoft.com/config/ubuntu/$(grep VERSION_ID /etc/os-release | cut -d '"' -f 2)/packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
     apt-get update && \
-    ACCEPT_EULA=Y apt-get install -y msodbcsql17 libqt5sql5-odbc
+    ACCEPT_EULA=Y apt-get install -y msodbcsql18 libqt5sql5-odbc && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ARG UID=33
 USER $UID
