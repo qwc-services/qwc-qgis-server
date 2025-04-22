@@ -1,6 +1,6 @@
 # QGIS Server 3 with Apache FCGI
 
-FROM ubuntu:jammy
+FROM ubuntu:noble
 
 ARG QGIS_REPO=ubuntu
 
@@ -19,7 +19,7 @@ RUN \
     apt-get install -y curl gpg gettext-base && \
     curl -L https://qgis.org/downloads/qgis-2022.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import && \
     chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg && \
-    echo "deb https://qgis.org/$QGIS_REPO jammy main" > /etc/apt/sources.list.d/qgis.org.list && \
+    echo "deb https://qgis.org/$QGIS_REPO noble main" > /etc/apt/sources.list.d/qgis.org.list && \
     apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
