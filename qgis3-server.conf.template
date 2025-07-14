@@ -16,6 +16,9 @@ ServerName 127.0.0.1
     RewriteRule ^${URL_PREFIX}/pg/(.+)/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=postgresql\%3A\%2F\%2F\%2F\%3Fservice\%3D${DB_PROJECT_SERVICE}\%26schema=$1\%26project=$2 [QSA,PT]
     # Endpoint for file based QGIS projects
     RewriteRule ^${URL_PREFIX}/(.*)$ /cgi-bin/qgis_mapserv.fcgi?map=/data/$1.${QGIS_PROJECT_SUFFIX} [QSA,PT]
+    # Endpoint for OGC API services
+    RewriteCond %{HTTP:Service-Name} ^(.*)$
+    RewriteRule ^/wfs3 /cgi-bin/qgis_mapserv.fcgi [QSA,PT,E=QGIS_PROJECT_FILE:/data/%1.${QGIS_PROJECT_SUFFIX}]
     # Endpoint for logs
     RewriteRule ^/logs$ /cgi-bin/tail_logs.sh [QSA,PT]
     # Forbid direct access
