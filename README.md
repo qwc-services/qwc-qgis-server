@@ -104,19 +104,22 @@ Additional datum grids
 
 Some projections may need additional datum grids for best accuracy. These are available at [https://cdn.proj.org/](https://cdn.proj.org/). Please mount these files below `/usr/share/proj`.
 
-Configuring a proxy server
---------------------------
+Setting QGIS settings
+---------------------
 
-Mount a file with contents
+To change QGIS settings, mount a `QGIS3.ini` file to `/etc/QGIS/QGIS3.ini` with the desired configuration.
+
+For instance, you can configure a proxy server or modify the network timeout:
 ```
 [proxy]
 proxyEnabled=true
 proxyType=HttpProxy
 proxyHost=myproxyhost
 proxyPort=8080
-```
-to `/etc/QGIS/QGIS3.ini`.
 
+[network]
+network-timeout=10000
+```
 
 Loading QGIS projects from database
 -----------------------------------
