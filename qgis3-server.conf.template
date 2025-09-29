@@ -12,8 +12,10 @@ ServerName 127.0.0.1
     Header set Access-Control-Allow-Origin "*"
 
     RewriteEngine On
-    # Endpoint for QGIS projects stored in PostgreSQL DB
+    # Endpoints for QGIS projects stored in PostgreSQL DB
     RewriteRule ^${URL_PREFIX}/pg/(.+)/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=postgresql\%3A\%2F\%2F\%2F\%3Fservice\%3D${DB_PROJECT_SERVICE}\%26schema=$1\%26project=$2 [QSA,PT]
+    RewriteRule ^${URL_PREFIX}/(.+)/pg/(.+)/(.+)$ /cgi-bin/qgis_mapserv.fcgi?map=postgresql\%3A\%2F\%2F\%2F\%3Fservice\%3D${DB_PROJECT_SERVICE}\%26schema=$2\%26project=$3 [QSA,PT]
+
     # Endpoint for file based QGIS projects
     RewriteRule ^${URL_PREFIX}/(.*)$ /cgi-bin/qgis_mapserv.fcgi?map=/data/$1.${QGIS_PROJECT_SUFFIX} [QSA,PT]
     # Endpoint for OGC API services
