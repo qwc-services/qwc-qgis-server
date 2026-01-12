@@ -62,3 +62,23 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
           tags: "${{ steps.get_tag_qgis_3.outputs.tags }}"
           workdir: .
+
+
+      - name: Get version tag QGIS 3 release nightly
+        id: get_tag_qgis_3_nightly
+        run: |
+          VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu-nightly-release/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\(.*\)+.*/\1/')
+          VERSION_MINOR=$(curl -Ls https://ubuntu.qgis.org/ubuntu-nightly-release/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
+          echo "tags=$VERSION_TRIPLE,${VERSION_MINOR}-nightly,latest-nightly" >> $GITHUB_OUTPUT
+
+      - name: Build and publish docker image for QGIS Server 3 nightly
+        uses: elgohr/Publish-Docker-Github-Action@v4
+        env:
+          QGIS_REPO: ubuntu-nightly-release
+        with:
+          name: sourcepole/qwc-qgis-server
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          tags: "${{ steps.get_tag_qgis_3_nightly.outputs.tags }}"
+          workdir: .
+          buildargs: QGIS_REPO
