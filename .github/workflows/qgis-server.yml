@@ -15,8 +15,8 @@ jobs:
       - name: Get version tag QGIS 3 LTR
         id: get_tag_qgis_3_ltr
         run: |
-          VERSION_TRIPLE=$(curl -s https://ubuntu.qgis.org/ubuntu-ltr/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\(.*\)+.*/\1/')
-          VERSION_MINOR=$(curl -s https://ubuntu.qgis.org/ubuntu-ltr/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
+          VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu-ltr/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\(.*\)+.*/\1/')
+          VERSION_MINOR=$(curl -Ls https://ubuntu.qgis.org/ubuntu-ltr/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
           echo "version=$VERSION_TRIPLE" >> $GITHUB_OUTPUT
           echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
           echo "tags=$VERSION_TRIPLE,$VERSION_MINOR,latest-ltr" >> $GITHUB_OUTPUT
@@ -36,7 +36,7 @@ jobs:
       - name: Build and publish docker image for QGIS Server 3 LTR with ODBC driver
         uses: elgohr/Publish-Docker-Github-Action@v4
         env:
-          QGIS_VERSION: ${{ steps.get_tag_qgis_3_ltr.outputs.version }}
+          QGIS_REPO: ubuntu-ltr
         with:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
@@ -44,13 +44,14 @@ jobs:
           tags: "${{ steps.get_tag_qgis_3_ltr.outputs.version }}-odbc,${{ steps.get_tag_qgis_3_ltr.outputs.minor }}-odbc"
           workdir: .
           dockerfile: Dockerfile-odbc
-          buildargs: QGIS_VERSION
+          buildargs: QGIS_REPO
+
 
       - name: Get version tag QGIS 3
         id: get_tag_qgis_3
         run: |
-          VERSION_TRIPLE=$(curl -s https://ubuntu.qgis.org/ubuntu/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\(.*\)+.*/\1/')
-          VERSION_MINOR=$(curl -s https://ubuntu.qgis.org/ubuntu/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
+          VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\(.*\)+.*/\1/')
+          VERSION_MINOR=$(curl -Ls https://ubuntu.qgis.org/ubuntu/dists/noble/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed 's/^Version: 1:\([0-9]*\.[0-9]*\).*/\1/')
           echo "tags=$VERSION_TRIPLE,$VERSION_MINOR,latest" >> $GITHUB_OUTPUT
 
       - name: Build and publish docker image for QGIS Server 3
