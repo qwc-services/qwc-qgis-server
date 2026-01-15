@@ -18,7 +18,7 @@ RUN \
                        fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu \
                        apache2 libapache2-mod-fcgid \
                        curl gpg gettext-base && \
-    curl -o /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
+    curl -Lo /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
     echo "\
 Types: deb deb-src\n\
 URIs: https://qgis.org/$QGIS_REPO\n\
