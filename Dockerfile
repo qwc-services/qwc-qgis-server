@@ -1,5 +1,6 @@
 # QGIS Server 3 with Apache FCGI
 
+# NOTE: Also change Suites: noble below when changing!
 FROM ubuntu:noble
 
 ARG QGIS_REPO=ubuntu
@@ -13,10 +14,10 @@ ARG QGIS_REPO=ubuntu
 ENV DEBIAN_FRONTEND=noninteractive
 RUN \
     apt-get update && apt-get upgrade -y && \
-    apt-get install -y locales && \
-    apt-get install -y fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu && \
-    apt-get install -y apache2 libapache2-mod-fcgid && \
-    apt-get install -y curl gpg gettext-base && \
+    apt-get install -y locales \
+                       fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu \
+                       apache2 libapache2-mod-fcgid \
+                       curl gpg gettext-base && \
     curl -o /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
     echo "\
 Types: deb deb-src\n\
