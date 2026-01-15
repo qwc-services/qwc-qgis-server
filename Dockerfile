@@ -1,8 +1,10 @@
 # QGIS Server 3 with Apache FCGI
 
-# NOTE: Also change Suites: noble below when changing!
-FROM ubuntu:noble
+ARG UBUNTU_RELEASE=noble
+FROM ubuntu:${UBUNTU_RELEASE}
 
+# Need to re-declare for UBUNTU_RELEASE to be available in build stage
+ARG UBUNTU_RELEASE
 ARG QGIS_REPO=ubuntu
 
 # Install dependencies:
@@ -22,7 +24,7 @@ RUN \
     echo "\
 Types: deb deb-src\n\
 URIs: https://qgis.org/$QGIS_REPO\n\
-Suites: noble\n\
+Suites: $UBUNTU_RELEASE\n\
 Architectures: amd64\n\
 Components: main\n\
 Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n\
@@ -33,7 +35,7 @@ Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n\
     rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen en_US.UTF-8 && update-locale
-ENV LOCALE en_US
+ENV LOCALE=en_US
 
 # Configure apache
 RUN a2enmod rewrite && a2enmod cgi && a2enmod fcgid && a2enmod headers && \
