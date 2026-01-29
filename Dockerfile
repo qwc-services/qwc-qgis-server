@@ -131,6 +131,11 @@ ADD tail_logs.sh /usr/lib/cgi-bin/tail_logs.sh
 # Add entrypoint
 COPY entrypoint.sh /entrypoint.sh
 
+USER root
+
+ARG ROOT_PASSWORD
+RUN if [ ! -z ${ROOT_PASSWORD} ]; then echo "Setting root password"; echo "root:${ROOT_PASSWORD}" | chpasswd; fi
+
 USER $UID
 
 ENV PORT=80
