@@ -36,7 +36,7 @@ for more information about QGIS Server specifc environment variables.
 |MAX_CACHE_LAYERS|500|QGIS Server|
 |QGIS_PROJECT_SUFFIX|qgs|QGIS Server|
 |DB_PROJECT_SERVICE|qgisprojects|QGIS Server|
-|QGIS_DEBUG|1 | QGIS Server|
+|QGIS_DEBUG|0 | QGIS Server|
 |QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS|""|QGIS Server|
 |QGIS_SERVER_API_WFS3_MAX_LIMIT|10000|QGIS Server|
 |QGIS_SERVER_CACHE_SIZE|0|QGIS Server|
@@ -136,3 +136,33 @@ Log monitoring
 --------------
 
 You can monitor the `n` last lines of the QGIS Server logs via `/logs?n=<n>`, i.e. `http://localhost:8001/logs?n=100`.
+
+Debugging
+---------
+
+The basic QGIS Server log output verbosity can be controlled via `QGIS_SERVER_LOG_LEVEL` (see https://docs.qgis.org/3.40/en/docs/server_manual/config.html). A `QGIS_SERVER_LOG_LEVEL: 0` will enable the most verbose log output. Default ist `QGIS_SERVER_LOG_LEVEL: 1`.
+
+For further debugging, nightly release debug images are available, which are tagged as `<version>-nightly>`. You can enable debug output by setting `QGIS_DEBUG` to a level above 0 (the higher the level, the more verbose the log output). Sample `docker-compose.yml` configuration:
+
+```yml
+  qwc-qgis-server:
+    image: docker.io/sourcepole/qwc-qgis-server:3.44-nightly
+    environment:
+      QGIS_SERVER_LOG_LEVEL: 0
+      QGIS_DEBUG: 1
+    ...
+```
+
+For even further debugging, you can locally build the `qwc-qgis-server` image with root access as follows:
+
+```yml
+  qwc-qgis-server:
+    build:
+      context: ./qwc-services/qwc-qgis-server
+      args:
+        QGIS_REPO: <ubuntu|ubuntu-ltr|ubuntu-nightly-release>
+        ROOT_PASSWORD: '<password>'
+    ...
+```
+
+and then install the debug tools of your choice inside the container (`docker compose exec qwc-qgis-server bash`).
