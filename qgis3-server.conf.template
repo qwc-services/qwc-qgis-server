@@ -44,8 +44,10 @@ ServerName 127.0.0.1
 
     # Not configurable QGIS Server ENVs
     FcgidInitialEnv QGIS_SERVER_LOG_STDERR 1
-    FcgidInitialEnv QGIS_CUSTOM_CONFIG_PATH "/var/lib/qgis"
-    FcgidInitialEnv QGIS_AUTH_DB_DIR_PATH "/var/lib/qgis"
+    FcgidInitialEnv QGIS_CUSTOM_CONFIG_PATH ${QGIS_CUSTOM_CONFIG_PATH}
+    FcgidInitialEnv QGIS_AUTH_DB_DIR_PATH ${QGIS_AUTH_DB_DIR_PATH}
+    FcgidInitialEnv QGIS_AUTH_DB_URI ${QGIS_AUTH_DB_URI}
+    FcgidInitialEnv QGIS_AUTH_PASSWORD_FILE ${QGIS_AUTH_PASSWORD_FILE}
     FcgidInitialEnv QGIS_OPTIONS_PATH "/etc"
     FcgidInitialEnv QGIS_SERVER_API_RESOURCES_DIRECTORY "/usr/share/qgis/resources/server/api"
     FcgidInitialEnv QGIS_SERVER_CACHE_DIRECTORY "/.cache"
