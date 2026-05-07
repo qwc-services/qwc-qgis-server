@@ -15,8 +15,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Get version tag QGIS 3 LTR
-        id: get_tag_qgis_3_ltr
+      - name: Get version tag QGIS LTR
+        id: get_tag_qgis_ltr
         run: |
           VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu-ltr/dists/${{env.UBUNTU_RELEASE}}/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed -n 's/.*:\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
           VERSION_MINOR=$(echo ${VERSION_TRIPLE} | sed -E 's/^([0-9]+\.[0-9]+).*/\1/')
@@ -24,7 +24,7 @@ jobs:
           echo "minor=$VERSION_MINOR" >> $GITHUB_OUTPUT
           echo "tags=$VERSION_TRIPLE,$VERSION_MINOR,latest-ltr" >> $GITHUB_OUTPUT
 
-      - name: Build and publish docker image for QGIS Server 3 LTR
+      - name: Build and publish docker image for QGIS Server LTR
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           QGIS_REPO: ubuntu-ltr
@@ -32,11 +32,11 @@ jobs:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_3_ltr.outputs.tags }}"
+          tags: "${{ steps.get_tag_qgis_ltr.outputs.tags }}"
           workdir: .
           buildargs: UBUNTU_RELEASE,QGIS_REPO
 
-      - name: Build and publish docker image for QGIS Server 3 LTR with ODBC driver
+      - name: Build and publish docker image for QGIS Server LTR with ODBC driver
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           QGIS_REPO: ubuntu-ltr
@@ -44,20 +44,20 @@ jobs:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_3_ltr.outputs.version }}-odbc,${{ steps.get_tag_qgis_3_ltr.outputs.minor }}-odbc"
+          tags: "${{ steps.get_tag_qgis_ltr.outputs.version }}-odbc,${{ steps.get_tag_qgis_ltr.outputs.minor }}-odbc"
           workdir: .
           dockerfile: Dockerfile-odbc
           buildargs: UBUNTU_RELEASE,QGIS_REPO
 
 
-      - name: Get version tag QGIS 3
-        id: get_tag_qgis_3
+      - name: Get version tag QGIS
+        id: get_tag_qgis
         run: |
           VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu/dists/${{env.UBUNTU_RELEASE}}/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed -n 's/.*:\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
           VERSION_MINOR=$(echo ${VERSION_TRIPLE} | sed -E 's/^([0-9]+\.[0-9]+).*/\1/')
           echo "tags=$VERSION_TRIPLE,$VERSION_MINOR,latest" >> $GITHUB_OUTPUT
 
-      - name: Build and publish docker image for QGIS Server 3
+      - name: Build and publish docker image for QGIS Server
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           QGIS_REPO: ubuntu
@@ -65,19 +65,19 @@ jobs:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_3.outputs.tags }}"
+          tags: "${{ steps.get_tag_qgis.outputs.tags }}"
           workdir: .
           buildargs: UBUNTU_RELEASE,QGIS_REPO
 
 
-      - name: Get version tag QGIS 3 release nightly
-        id: get_tag_qgis_3_nightly
+      - name: Get version tag QGIS release nightly
+        id: get_tag_qgis_nightly
         run: |
           VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu-nightly-release/dists/${{env.UBUNTU_RELEASE}}/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed -n 's/.*:\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
           VERSION_MINOR=$(echo ${VERSION_TRIPLE} | sed -E 's/^([0-9]+\.[0-9]+).*/\1/')
           echo "tags=${VERSION_TRIPLE}-nightly,${VERSION_MINOR}-nightly,latest-nightly" >> $GITHUB_OUTPUT
 
-      - name: Build and publish docker image for QGIS Server 3 nightly
+      - name: Build and publish docker image for QGIS Server nightly
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           QGIS_REPO: ubuntu-nightly-release
@@ -85,6 +85,25 @@ jobs:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_3_nightly.outputs.tags }}"
+          tags: "${{ steps.get_tag_qgis_nightly.outputs.tags }}"
+          workdir: .
+          buildargs: UBUNTU_RELEASE,QGIS_REPO
+
+      - name: Get version tag QGIS 4
+        id: get_tag_qgis_4
+        run: |
+          VERSION_TRIPLE=$(curl -Ls https://ubuntu.qgis.org/ubuntu/dists/plucky/main/binary-amd64/Packages | grep -A 2 "Package: qgis-server$" | grep Version | head -1 | sed -n 's/.*:\([0-9]\+\.[0-9]\+\.[0-9]\+\).*/\1/p')
+          VERSION_MINOR=$(echo ${VERSION_TRIPLE} | sed -E 's/^([0-9]+\.[0-9]+).*/\1/')
+          echo "tags=$VERSION_TRIPLE,$VERSION_MINOR,latest-4" >> $GITHUB_OUTPUT
+
+      - name: Build and publish docker image for QGIS Server 4
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        env:
+          QGIS_REPO: ubuntu
+        with:
+          name: sourcepole/qwc-qgis-server
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          tags: "${{ steps.get_tag_qgis4.outputs.tags }}"
           workdir: .
           buildargs: UBUNTU_RELEASE,QGIS_REPO
