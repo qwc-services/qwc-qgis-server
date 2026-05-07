@@ -74,6 +74,28 @@ RUN \
     chown $UID /etc/apache2/ports.conf && \
     chown $UID /etc/apache2
 
+# OpenShift compatibility: allow arbitrary UID to run with root group permissions
+RUN chgrp -R 0 \
+      /etc/apache2 \
+      /var/run/apache2 \
+      /var/lock/apache2 \
+      /var/log/apache2 \
+      /var/lib/apache2 \
+      /var/lib/qgis \
+      /.cache \
+      /etc/cache \
+      /var/cache/fontconfig \
+ && chmod -R g=u \
+      /etc/apache2 \
+      /var/run/apache2 \
+      /var/lock/apache2 \
+      /var/log/apache2 \
+      /var/lib/apache2 \
+      /var/lib/qgis \
+      /.cache \
+      /etc/cache \
+      /var/cache/fontconfig
+
 # ENV variables that will be used to configure QGIS server FCGI
 # apache2 specific variables
 ENV APACHE_LOG_LEVEL=info
