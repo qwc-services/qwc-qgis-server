@@ -17,19 +17,19 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN \
     apt-get update && apt-get upgrade -y && \
     apt-get install -y locales \
-                       fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu \
-                       apache2 libapache2-mod-fcgid \
-                       curl gpg gettext-base \
-                       iputils-ping postgresql-client && \
+    fontconfig fonts-dejavu ttf-bitstream-vera fonts-liberation fonts-ubuntu \
+    apache2 libapache2-mod-fcgid \
+    curl gpg gettext-base \
+    iputils-ping postgresql-client && \
     curl -Lo /etc/apt/keyrings/qgis-archive-keyring.gpg https://download.qgis.org/downloads/qgis-archive-keyring.gpg && \
     echo "\
-Types: deb deb-src\n\
-URIs: https://qgis.org/$QGIS_REPO\n\
-Suites: $UBUNTU_RELEASE\n\
-Architectures: amd64\n\
-Components: main\n\
-Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n\
-" > /etc/apt/sources.list.d/qgis.sources && \
+    Types: deb deb-src\n\
+    URIs: https://qgis.org/$QGIS_REPO\n\
+    Suites: $UBUNTU_RELEASE\n\
+    Architectures: amd64\n\
+    Components: main\n\
+    Signed-By: /etc/apt/keyrings/qgis-archive-keyring.gpg\n\
+    " > /etc/apt/sources.list.d/qgis.sources && \
     apt-get update && \
     apt-get install -y qgis-server && \
     apt-get clean && \
@@ -44,11 +44,11 @@ RUN a2enmod rewrite && a2enmod cgi && a2enmod fcgid && a2enmod headers && \
     # so we can see the logs with "docker logs"
     # See: https://github.com/docker-library/httpd/blob/b13054c7de5c74bbaa6d595dbe38969e6d4f860c/2.2/Dockerfile#L72-L75
     sed -ri \
-		-e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
-		/etc/apache2/apache2.conf && \
+    -e 's!^(\s*ErrorLog)\s+\S+!\1 /proc/self/fd/2!g' \
+    /etc/apache2/apache2.conf && \
     sed -ri \
-        -e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
-        /etc/apache2/conf-available/other-vhosts-access-log.conf && \
+    -e 's!^(\s*CustomLog)\s+\S+!\1 /proc/self/fd/1!g' \
+    /etc/apache2/conf-available/other-vhosts-access-log.conf && \
     # Delete apache2 default site
     rm /etc/apache2/sites-enabled/000-default.conf
 
@@ -76,25 +76,25 @@ RUN \
 
 # OpenShift compatibility: allow arbitrary UID to run with root group permissions
 RUN chgrp -R 0 \
-      /etc/apache2 \
-      /var/run/apache2 \
-      /var/lock/apache2 \
-      /var/log/apache2 \
-      /var/lib/apache2 \
-      /var/lib/qgis \
-      /.cache \
-      /etc/cache \
-      /var/cache/fontconfig \
- && chmod -R g=u \
-      /etc/apache2 \
-      /var/run/apache2 \
-      /var/lock/apache2 \
-      /var/log/apache2 \
-      /var/lib/apache2 \
-      /var/lib/qgis \
-      /.cache \
-      /etc/cache \
-      /var/cache/fontconfig
+    /etc/apache2 \
+    /var/run/apache2 \
+    /var/lock/apache2 \
+    /var/log/apache2 \
+    /var/lib/apache2 \
+    /var/lib/qgis \
+    /.cache \
+    /etc/cache \
+    /var/cache/fontconfig \
+    && chmod -R g=u \
+    /etc/apache2 \
+    /var/run/apache2 \
+    /var/lock/apache2 \
+    /var/log/apache2 \
+    /var/lib/apache2 \
+    /var/lib/qgis \
+    /.cache \
+    /etc/cache \
+    /var/cache/fontconfig
 
 # ENV variables that will be used to configure QGIS server FCGI
 # apache2 specific variables
@@ -148,6 +148,8 @@ ENV QGIS_AUTH_DB_DIR_PATH="/var/lib/qgis"
 ENV QGIS_AUTH_DB_URI=""
 ENV QGIS_AUTH_PASSWORD_FILE=""
 ENV FCGID_EXTRA_ENV=""
+
+ENV PASS_EXTRA_ENV=""
 
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
