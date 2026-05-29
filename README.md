@@ -80,11 +80,20 @@ Additional ENV-vars
 -------------------
 
 You can pass arbitrary environment variables to FCGI by setting `FCGID_EXTRA_ENV` to a comma-separated list of additional variables,
-and then setting the variables itself. This is useful for instance for qgis server plugins.
+and then setting the variables itself. This is useful for instance for qgis server plugins. This variables will be used at FCGI initialization time.
 
 Example:
 
       FCGID_EXTRA_ENV=FOO,BAR
+      FOO=foo_val
+      BAR=bar_val
+
+You can also pass arbitrary environment variables to FCGI by setting `PASS_EXTRA_ENV` to a comma-separated list of additional variables,
+and then setting the variables itself. This is useful when running providers with runtime loading environnment (as GDAL driver 'Microsoft Azure blob containers').
+
+Example:
+
+      PASS_EXTRA_ENV=FOO,BAR
       FOO=foo_val
       BAR=bar_val
 

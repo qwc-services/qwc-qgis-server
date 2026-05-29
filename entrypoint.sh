@@ -26,8 +26,15 @@ for extra_env in $FCGID_EXTRA_ENV; do
     sed -i "s|@FCGID_EXTRA_ENV@|FcgidInitialEnv ${extra_env} ${repl}\n@FCGID_EXTRA_ENV@|" /tmp/qgis-server.conf.template
   fi
 done
+for extra_env in $PASS_EXTRA_ENV; do
+  if [ ! -z ${!extra_env} ]; then
+    sed -i "s|@PASS_EXTRA_ENV@|PassEnv ${extra_env}\n@PASS_EXTRA_ENV@|" /tmp/qgis-server.conf.template
+  fi
+done
 IFS=$ORIG_IFS
+
 sed -i "s|@FCGID_EXTRA_ENV@||" /tmp/qgis-server.conf.template
+sed -i "s|@PASS_EXTRA_ENV@||" /tmp/qgis-server.conf.template
 
 # Substitute predefined variables from ENV
 envsubst < /tmp/qgis-server.conf.template > /etc/apache2/sites-enabled/qgis-server.conf

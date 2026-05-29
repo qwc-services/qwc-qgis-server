@@ -149,6 +149,8 @@ ENV QGIS_AUTH_DB_URI=""
 ENV QGIS_AUTH_PASSWORD_FILE=""
 ENV FCGID_EXTRA_ENV=""
 
+ENV PASS_EXTRA_ENV=""
+
 # Add apache config for QGIS server
 ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
 
