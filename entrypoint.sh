@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Delete any leftover tmp files
+find /tmp -mindepth 1 -delete 2>/dev/null
+
 # Generate any requested non-en_US locale
 if [ $LOCALE != 'en_US' ]; then
   echo "Compiling locale definition for $LOCALE"
