@@ -181,6 +181,6 @@ jobs:
           name: sourcepole/qwc-qgis-server
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          tags: "${{ steps.get_tag_qgis_4_dev_nightly.outputs.tags }}"
+          tags: "${{ steps.get_tag_qgis_dev_nightly.outputs.tags }}"
           workdir: .
           buildargs: UBUNTU_RELEASE,QGIS_REPO
