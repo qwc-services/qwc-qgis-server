@@ -144,6 +144,10 @@ It will use the `qgisprojects` postgresql service connection, which must be defi
 Log monitoring
 --------------
 
+To enable the log monitoring endpoint, logging to file has to be activated:
+
+    QGIS_SERVER_LOG_FILE="/tmp/qgis_server.log"
+
 You can monitor the `n` last lines of the QGIS Server logs via `/logs?n=<n>`, i.e. `http://localhost:8001/logs?n=100`.
 
 Debugging

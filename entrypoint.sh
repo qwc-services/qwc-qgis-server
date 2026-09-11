@@ -50,6 +50,10 @@ sed -i -e "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf
 # Activate the Ubuntu Apache environment
 . /etc/apache2/envvars
 
-> $QGIS_SERVER_LOG_FILE
-tail -f $QGIS_SERVER_LOG_FILE > /proc/self/fd/2 &
-exec /usr/sbin/apache2 -k start -DFOREGROUND &>> $QGIS_SERVER_LOG_FILE
+if [[ -n "$QGIS_SERVER_LOG_FILE" ]]; then
+    > $QGIS_SERVER_LOG_FILE
+    tail -f $QGIS_SERVER_LOG_FILE > /proc/self/fd/2 &
+    exec /usr/sbin/apache2 -k start -DFOREGROUND &>> $QGIS_SERVER_LOG_FILE
+else
+    exec /usr/sbin/apache2 -k start -DFOREGROUND
+fi
