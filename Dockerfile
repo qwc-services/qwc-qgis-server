@@ -157,6 +157,9 @@ ADD qgis3-server.conf.template /etc/apache2/templates/qgis-server.conf.template
 # Add tail_logs.sh script
 ADD tail_logs.sh /usr/lib/cgi-bin/tail_logs.sh
 
+# Add healtcheck script
+ADD health.py /usr/share/qgis/python/health.py
+
 # Add entrypoint
 COPY entrypoint.sh /entrypoint.sh
 
