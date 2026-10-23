@@ -1,0 +1,9 @@
+[general]
+name=SplitCategorized
+qgisMinimumVersion=3.4
+qgisMaximumVersion=3.99
+description=A plugin expose categorized layer symbologies as separate layers
+version=1.0
+author=Hussein Kabbout, Sandro Mani
+email=hka@sourcepole.ch, smani@sourcepole.ch
+server=True

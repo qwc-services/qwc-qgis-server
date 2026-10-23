@@ -1,0 +1,9 @@
+[general]
+name=FilterGeom
+qgisMinimumVersion=3.4
+qgisMaximumVersion=3.99
+description=A plugin to add FILTER_GEOM support to WMS GetMap
+version=version 1.0
+author=Sandro Mani
+email=smani@sourcepole.ch
+server=True

@@ -18,62 +18,65 @@ The FCGI configuration of the QGIS Server can be configured by setting some envi
 Here is a list of all environment variables that can be currently set and their default values.
 The list also contains information about which application the environment variables configure.
 
-See [QGIS Server documentation](https://docs.qgis.org/3.28/en/docs/server_manual/config.html#environment-variables)
+See [QGIS Server documentation](https://docs.qgis.org/latest/en/docs/server_manual/config.html#environment-variables)
 for more information about QGIS Server specifc environment variables.
 
-| Name | Default | Application|
-|------|---------|-------------
-|URL_PREFIX|/ows|QWC2 Services|
-|PORT|80|QGIS Server apache2 FCGI|
-|APACHE_LOG_LEVEL|info|QGIS Server apache2 FCGI|
-|FCGI_IO_TIMEOUT|120|QGIS Server apache2 FCGI|
-|FCGI_MIN_PROCESSES|3 |QGIS Server apache2 FCGI|
-|FCGI_MAX_PROCESSES|100|QGIS Server apache2 FCGI|
-|FCGI_PROCESS_LIFE_TIME|3600|QGIS Server apache2 FCGI|
-|FCGI_IDLE_TIMEOUT|300|QGIS Server apache2 FCGI|
-|FCGI_MAX_REQUESTLEN|26214400|QGIS Server apache2 FCGI|
-|FCGI_CONNECT_TIMEOUT|60|QGIS Server apache2 FCGI|
-|MAX_CACHE_LAYERS|500|QGIS Server|
-|QGIS_PROJECT_SUFFIX|qgs|QGIS Server|
-|DB_PROJECT_SERVICE|qgisprojects|QGIS Server|
-|QGIS_DEBUG|0 | QGIS Server|
-|QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS|""|QGIS Server|
-|QGIS_SERVER_API_WFS3_MAX_LIMIT|10000|QGIS Server|
-|QGIS_SERVER_CACHE_SIZE|52428800|QGIS Server|
-|QGIS_SERVER_CAPABILITIES_CACHE_SIZE|40|QGIS Server|
-|QGIS_SERVER_DISABLE_GETPRINT|false|QGIS Server|
-|QGIS_SERVER_FORCE_READONLY_LAYERS|false|QGIS Server|
-|QGIS_SERVER_IGNORE_BAD_LAYERS|false|QGIS Server|
-|QGIS_SERVER_LANDING_PAGE_PREFIX|""|QGIS Server|
-|QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES|""|QGIS Server|
-|QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS|""|QGIS Server|
-|QGIS_SERVER_LOG_LEVEL|1 |QGIS Server|
-|QGIS_SERVER_LOG_PROFILE|false|QGIS Server|
-|QGIS_SERVER_MAX_THREADS|-1|QGIS Server|
-|QGIS_SERVER_OVERRIDE_SYSTEM_LOCALE|""|QGIS Server|
-|QGIS_SERVER_PARALLEL_RENDERING|false|QGIS Server|
-|QGIS_SERVER_PROJECT_CACHE_CHECK_INTERVAL|0 |QGIS Server|
-|QGIS_SERVER_PROJECT_CACHE_STRATEGY|filesystem|QGIS Server|
-|QGIS_SERVER_PROJECT_CACHE_SIZE|100|QGIS Server (>=3.44)|
-|QGIS_SERVER_SERVICE_URL|""|QGIS Server|
-|QGIS_SERVER_SHOW_GROUP_SEPARATOR|false|QGIS Server|
-|QGIS_SERVER_TRUST_LAYER_METADATA|1 |QGIS Server|
-|QGIS_SERVER_WCS_SERVICE_URL|""|QGIS Server|
-|QGIS_SERVER_WFS_SERVICE_URL|""|QGIS Server|
-|QGIS_SERVER_WMS_MAX_HEIGHT|-1|QGIS Server|
-|QGIS_SERVER_WMS_MAX_WIDTH|-1|QGIS Server|
-|QGIS_SERVER_WMS_SERVICE_URL|""|QGIS Server|
-|QGIS_SERVER_WMTS_SERVICE_URL|""|QGIS Server|
+| Name                                   | Default      |
+|----------------------------------------|--------------|
+|`URL_PREFIX`                            |`/ows`        |
+|`ENABLED_PLUGINS`                       |`[]`          |
+|`PORT`                                  |`80`          |
+|`APACHE_LOG_LEVEL`                      |`info`        |
+|`FCGI_IO_TIMEOUT`                       |`120`         |
+|`FCGI_MIN_PROCESSES`                    |`3`           |
+|`FCGI_MAX_PROCESSES`                    |`100`         |
+|`FCGI_PROCESS_LIFE_TIME`                |`3600 `       |
+|`FCGI_IDLE_TIMEOUT`                     |`300`         |
+|`FCGI_MAX_REQUESTLEN`                   |`26214400`    |
+|`FCGI_CONNECT_TIMEOUT`                  |`60`          |
+|`MAX_CACHE_LAYERS`                      |`500`         |
+|`QGIS_PROJECT_SUFFIX`                   |`qgs`         |
+|`DB_PROJECT_SERVICE`                    |`qgisprojects`|
+|`QGIS_DEBUG`                            |`0`           |
+|`QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS`  |`""`          |
+|`QGIS_SERVER_API_WFS3_MAX_LIMIT`        |`10000`       |
+|`QGIS_SERVER_CACHE_SIZE`                |`52428800`    |
+|`QGIS_SERVER_CAPABILITIES_CACHE_SIZE`   |`40`          |
+|`QGIS_SERVER_DISABLE_GETPRINT`          |`false`       |
+|`QGIS_SERVER_FORCE_READONLY_LAYERS`     |`false`       |
+|`QGIS_SERVER_IGNORE_BAD_LAYERS`         |`false`       |
+|`QGIS_SERVER_LANDING_PAGE_PREFIX`       |`""`          |
+|`QGIS_SERVER_LANDING_PAGE_PROJECTS_DIRECTORIES` |`""`  |
+|`QGIS_SERVER_LANDING_PAGE_PROJECTS_PG_CONNECTIONS`|`""`|
+|`QGIS_SERVER_LOG_LEVEL`                 |`1`           |
+|`QGIS_SERVER_LOG_PROFILE`               |`false`       |
+|`QGIS_SERVER_MAX_THREADS`               |`-1`          |
+|`QGIS_SERVER_OVERRIDE_SYSTEM_LOCALE`    |`""`          |
+|`QGIS_SERVER_PARALLEL_RENDERING`        |`false`       |
+|`QGIS_SERVER_PROJECT_CACHE_CHECK_INTERVAL`|`0`         |
+|`QGIS_SERVER_PROJECT_CACHE_STRATEGY`    |`filesystem`  |
+|`QGIS_SERVER_PROJECT_CACHE_SIZE`        |`100`         |
+|`QGIS_SERVER_SERVICE_URL`               |`""`          |
+|`QGIS_SERVER_SHOW_GROUP_SEPARATOR`      |`false`       |
+|`QGIS_SERVER_TRUST_LAYER_METADATA`      |`1`           |
+|`QGIS_SERVER_WCS_SERVICE_URL`           |`""`          |
+|`QGIS_SERVER_WFS_SERVICE_URL`           |`""`          |
+|`QGIS_SERVER_WMS_MAX_HEIGHT`            |`-1`          |
+|`QGIS_SERVER_WMS_MAX_WIDTH`             |`-1`          |
+|`QGIS_SERVER_WMS_SERVICE_URL`           |`""`          |
+|`QGIS_SERVER_WMTS_SERVICE_URL`          |`""`          |
 
-Other QGIS Server settings that are used:
+Other QGIS Server environment variables that set (harcoded):
 
-* QGIS_CUSTOM_CONFIG_PATH: "/var/lib/qgis"
-* QGIS_AUTH_DB_DIR_PATH: "/var/lib/qgis"
-* QGIS_OPTIONS_PATH: "/etc"
-* QGIS_PLUGINPATH: "/usr/share/qgis/python/plugins"
-* QGIS_SERVER_API_RESOURCES_DIRECTORY: "/usr/share/qgis/resources/server/api"
-* QGIS_SERVER_CACHE_DIRECTORY: "/.cache"
-* PGSERVICEFILE: "/etc/postgresql-common/pg_service.conf"
+| Name                                | Value                                  |
+|-------------------------------------|----------------------------------------|
+|`QGIS_CUSTOM_CONFIG_PATH`            |`/var/lib/qgis`                         |
+|`QGIS_AUTH_DB_DIR_PATH`              |`/var/lib/qgis`                         |
+|`QGIS_OPTIONS_PATH`                  |`/etc`                                  |
+|`QGIS_PLUGINPATH`                    |`/usr/share/qgis/python/plugins`        |
+|`QGIS_SERVER_API_RESOURCES_DIRECTORY`|`/usr/share/qgis/resources/server/api`  |
+|`QGIS_SERVER_CACHE_DIRECTORY`        |`/.cache`                               |
+|`PGSERVICEFILE`                      |`/etc/postgresql-common/pg_service.conf`|
 
 
 Additional ENV-vars
@@ -97,6 +100,37 @@ Example:
       FOO=foo_val
       BAR=bar_val
 
+
+Plugins
+-------
+
+The `qwc-qgis-server` image includes a set of [plugins](plugins) which are required for various QWC functionalities.
+
+These plugins are disabled by default and must be enabled listing the respective plugin names in the `ENABLED_PLUGINS` Env-Var, i.e.
+```
+ENABLED_PLUGINS: '["print_templates", "get_translations"]'
+```
+
+The available plugins are as follows:
+
+| Plugin name                 | Description |
+|-----------------------------|-------------|
+|`datasource_filter_username` | Replacees `$QWC_USERNAME$` in datasource filter expressions with the current QWC username, passed via `QWC_USERNAME` query parameter to the QGIS Server. The `QWC_USERNAME` parameter is passed by default by the `qwc-ogc-service`. Furthermore, `$QWC_USERNAME$` in a datasource filter expression will also be replaced by the `qwc-data-service` in the queries it builds. Useful limit a dataset to a subset based on the logged in user. |
+|`filter_geom`                | Implements `FILTER_GEOM` for WMS GetMap and GetLegendGraphics. It works by injecting a corresponding `FILTER` expression for each applicable layer. Currently, only postgis layers will be filtered. |
+|`get_translations`           | Returns project translations (i.e. layer and field names) read from the `<projectname>_<lang>.ts` translations, also used in QGIS Desktop, plus auxiliary translations from a `<projectname>_<lang>.json` for translations which are not (yet) handled by the QGIS project translation mechanism. See [translated themes documentation](https://qwc-services.github.io/master/topics/Translations/#translated-themes). |
+|`print_templates`            | Allows managing print templates as `.qpt` files in a specified `PRINT_LAYOUT_DIR`, which are then made available to all projects in `GetPrint` requests. See [print templates documentation](https://qwc-services.github.io/master/topics/Printing/#layout-templates). |
+|`split_categorized`          | Expose categorized layer symbologies as separate layers. See [categorized layers documentation](https://qwc-services.github.io/master/configuration/ThemesConfiguration/#split-categorized-layers). |
+|`wms_geotiff_output`         | Adds support for GEOTIFF output to WMS GetMap. |
+|`clear_capabilities`         | Clears the WMS cache before GetCapabilities or GetProjectSettings requests. |
+
+You can also add custom plugins by mounting these to the `plugins` folder inside the container:
+```yml
+  qwc-qgis-server:
+    image: docker.io/sourcepole/qwc-qgis-server:<TAG>
+  ...
+  volumes:
+   - ./volumes/qwc-qgis-server-plugins/<plugin_name>:/usr/share/qgis/python/plugins/<plugin_name>:ro
+```
 
 Additional fonts
 ----------------

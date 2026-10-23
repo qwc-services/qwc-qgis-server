@@ -1,0 +1,9 @@
+[general]
+name=WMSGeotiffOutput
+qgisMinimumVersion=3.4
+qgisMaximumVersion=3.99
+description=A plugin to add support for geotiff output to WMS GetMap
+version=version 1.0
+author=Marco Hugentobler
+email=marco.hugentobler@sourcepole.ch
+server=True

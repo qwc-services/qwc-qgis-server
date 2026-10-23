@@ -1,0 +1,9 @@
+[general]
+name=PrintTemplates
+qgisMinimumVersion=3.4
+qgisMaximumVersion=3.99
+description=A plugin to add print templates to QGIS server and use them in GetPrint 
+version=version 1.0
+author=Marco Hugentobler
+email=marco.hugentobler@sourcepole.ch
+server=True

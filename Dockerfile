@@ -113,6 +113,7 @@ ENV URL_PREFIX=/ows
 ENV QGIS_PROJECT_SUFFIX=qgs
 ENV DB_PROJECT_SERVICE=qgisprojects
 # QGIS Server specific variables
+ENV ENABLED_PLUGINS="[]"
 ENV MAX_CACHE_LAYERS=500
 ENV QGIS_DEBUG=0
 ENV QGIS_SERVER_ALLOWED_EXTRA_SQL_TOKENS=""
@@ -162,6 +163,8 @@ ADD health.py /usr/share/qgis/python/health.py
 
 # Add entrypoint
 COPY entrypoint.sh /entrypoint.sh
+
+COPY plugins/ /usr/share/qgis/python/plugins/
 
 USER root
 
