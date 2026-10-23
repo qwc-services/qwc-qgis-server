@@ -15,11 +15,11 @@
 #
 
 import json
-import os
 
 
 def serverClassFactory(serverIface):
-    enabled_plugins = json.loads(os.getenv('ENABLED_PLUGINS', '[]'))
+    with open("/var/lib/qgis/enabled_plugins.json") as fh:
+        enabled_plugins = json.load(fh)
     if 'wms_geotiff_output' not in enabled_plugins:
         return None
     from qgis.core import Qgis, QgsMessageLog

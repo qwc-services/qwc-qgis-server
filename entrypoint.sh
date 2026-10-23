@@ -44,6 +44,9 @@ envsubst < /tmp/qgis-server.conf.template > /etc/apache2/sites-enabled/qgis-serv
 
 rm /tmp/qgis-server.conf.template
 
+# Write /etc/QGIS/enabled_plugins.json
+echo "$ENABLED_PLUGINS" > /var/lib/qgis/enabled_plugins.json
+
 # Replace Port
 sed -i -e "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf
 
