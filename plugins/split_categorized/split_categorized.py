@@ -45,9 +45,7 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
 
         # Walk through layer tree, split categorized layers as required
         root = qgs_project.layerTreeRoot()
-        # QgsMessageLog.logMessage(
-        #     f"XXX Before = %s" % (root.dump()), "SplitCategorizedLayer", Qgis.MessageLevel.Info
-        # )
+
         self.splitCounter = 0
         for (idx, child) in enumerate(root.children()):
             self.split_layers_in_tree(child, root, idx, qgs_project)
@@ -142,6 +140,8 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
 
             layerRenderer = layer.renderer()
             layerSymbols = layerRenderer.legendSymbolItems()
+            (wfs_layers, _) = qgs_project.readListEntry("WFSLayers", "/")
+            isWfsLayer = layer.id() in wfs_layers
 
             QgsMessageLog.logMessage(
                 f"Splitting {layer.name()} into {len(layerSymbols)} layers",
@@ -160,6 +160,9 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
                 category_layer.setCrs(layer.crs())
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "convert_categorized_layer", "false")
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "is_category_sublayer", "true")
+                if isWfsLayer:
+                    (wfs_layers, _) = qgs_project.readListEntry("WFSLayers", "/")
+                    qgs_project.writeEntry("WFSLayers", "/", wfs_layers + [category_layer.id()])
 
                 cat_renderer = QgsRuleBasedRenderer.convertFromRenderer(layerRenderer, layer)
 
