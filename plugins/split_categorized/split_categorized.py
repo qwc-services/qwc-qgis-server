@@ -45,9 +45,7 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
 
         # Walk through layer tree, split categorized layers as required
         root = qgs_project.layerTreeRoot()
-        # QgsMessageLog.logMessage(
-        #     f"XXX Before = %s" % (root.dump()), "SplitCategorizedLayer", Qgis.MessageLevel.Info
-        # )
+
         self.splitCounter = 0
         for (idx, child) in enumerate(root.children()):
             self.split_layers_in_tree(child, root, idx, qgs_project)
@@ -142,9 +140,11 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
 
             layerRenderer = layer.renderer()
             layerSymbols = layerRenderer.legendSymbolItems()
+            (wfs_layers, _) = qgs_project.readListEntry("WFSLayers", "/")
+            isWfsLayer = layer.id() in wfs_layers
 
             QgsMessageLog.logMessage(
-                f"Spliting {layer.name()} into {len(layerSymbols)} layers",
+                f"Splitting {layer.name()} into {len(layerSymbols)} layers",
                 "SplitCategorizedLayer",
                 Qgis.MessageLevel.Info,
             )
@@ -160,22 +160,26 @@ class SplitCategorizedLayersFilter(QgsServerFilter):
                 category_layer.setCrs(layer.crs())
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "convert_categorized_layer", "false")
                 QgsExpressionContextUtils.setLayerVariable(category_layer, "is_category_sublayer", "true")
-
-                if layerRenderer.legendSymbolItemsCheckable():
-                    visible = layerRenderer.legendSymbolItemChecked(symbol.ruleKey())
-                QgsExpressionContextUtils.setLayerVariable(category_layer, "category_visibility", "true" if visible else "false")
+                if isWfsLayer:
+                    (wfs_layers, _) = qgs_project.readListEntry("WFSLayers", "/")
+                    qgs_project.writeEntry("WFSLayers", "/", wfs_layers + [category_layer.id()])
 
                 cat_renderer = QgsRuleBasedRenderer.convertFromRenderer(layerRenderer, layer)
 
                 category_layer.setRenderer(cat_renderer)
                 root_rule = category_layer.renderer().rootRule()
+                isElseRule = False
                 for rule in root_rule.children():
                     if rule.label() != symbol.label():
                         root_rule.removeChild(rule)
                     else:
                         # Ensure layer and symbol rule is checked
+                        isElseRule = rule.isElse()
                         cat_renderer.checkLegendSymbolItem(rule.ruleKey(), True)
 
+                if layerRenderer.legendSymbolItemsCheckable():
+                    visible = layerRenderer.legendSymbolItemChecked(symbol.ruleKey()) and not isElseRule
+                QgsExpressionContextUtils.setLayerVariable(category_layer, "category_visibility", "true" if visible else "false")
 
                 qgs_project.addMapLayer(category_layer, False)
                 group.addLayer(category_layer)
